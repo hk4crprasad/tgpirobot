@@ -1,7 +1,7 @@
 # 🤖 TGPIROBOT - Telegram Auto Reply Bot
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/5070591/115477479-2a8d2f00-a28a-11eb-85e7-aedbf1a9f829.png">
+  <img src="https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/OIG%20(1)_bgremoval.ai.png">
 </p>
 
 <p align="center">
