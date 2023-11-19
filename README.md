@@ -61,8 +61,6 @@ python main.py --update
 
 ### Get API Credentials
 
-<a href="https://my.telegram.org"><img src="https://user-images.githubusercontent.com/5070591/115477866-d465d980-a28a-11eb-80e1-f3f5dcfbbdc3.png" width="240px"></a>
-
 - Visit [my.telegram.org](https://my.telegram.org) and login  
 - Go to API Development tools
 - Create a new app
@@ -97,4 +95,5 @@ Made with ❤️ by [hk4crprasad](https://github.com/hk4crprasad)
 
 [GPL-3.0](https://github.com/hk4crprasad/tgpirobot/blob/master/LICENSE)
 
-Let me know if you would like me to modify or enhance this README further!
+<p align="center">
+<a href="https://github.com/hk4crprasad/tgpirobot"><img src="https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/OIG_bgremoval.ai.png"></a>
