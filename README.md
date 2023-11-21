@@ -4,6 +4,9 @@
   <img src="https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/OIG%20(1)_bgremoval.ai.png">
 </p>
 
+##
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Robot&size=21&pause=1000&color=C84717&center=true&vCenter=true&random=false&width=435&lines=TGPIROBOT+;Made+by+Hk4crprasad+;pip+install+tgpirobot+)](https://git.io/typing-svg)
+##
 <p align="center">
   <a href="https://github.com/hk4crprasad/tgpirobot">
     <img src="https://img.shields.io/github/stars/hk4crprasad/tgpirobot?style=for-the-badge&color=ee6712"> 
