@@ -81,13 +81,9 @@ Now your account will auto-reply when offline! 🎉
 
 ### Its ask for Number and Otp
 
-```python
-
-Enter Number or bot token :- +919000000999
-Is the number(+919000000999) is right(Yn) : y
-Enter Received Otp from telegram app : 000000
-
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/OIG%20(1)_bgremoval.ai.png">
+</p>
 
 ##
 ## 🧑 Author 
