@@ -82,7 +82,7 @@ Now your account will auto-reply when offline! 🎉
 ### Its ask for Number and Otp
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/OIG%20(1)_bgremoval.ai.png">
+  <img src="https://raw.githubusercontent.com/hk4crprasad/tgpirobot/master/TGPIROBOT%20(2).png">
 </p>
 
 ##
