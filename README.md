@@ -75,6 +75,8 @@ python main.py --update
 Your API_ID: YOUR_API_ID
 Your API_HASH: YOUR_API_HASH
 Debug mode (true/false): true or false(false is good)
+Handler name(Telegram/insta/github) : github
+Link : https://github.com/hk4crprasad
 ```
 
 Now your account will auto-reply when offline! 🎉
