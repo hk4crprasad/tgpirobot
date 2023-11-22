@@ -10,7 +10,8 @@ with open(os.path.join("tgpirobot", ".version"), "r", encoding="utf8") as fh:
     version = fh.read().strip()
 
 install_requires = [
-    'rich'
+    'rich',
+    'pyrogram-repl'
 ]
 
 # Create a table for rich output
