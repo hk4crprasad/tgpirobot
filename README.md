@@ -85,6 +85,13 @@ Now your account will auto-reply when offline! 🎉
   <img src="https://raw.githubusercontent.com/hk4crprasad/tgpirobot/master/TGPIROBOT%20(2).png">
 </p>
 
+## Also can be used like `from tgpirobot import TgPiRobot`
+
+<p align="center">
+  
+![HK4CRPRASAD](https://raw.githubusercontent.com/hk4crprasad/tgpirobot/master/You%20can%20use%20in%20your%20code%20like.svg)
+</p>
+
 ##
 ## 🧑 Author 
 
