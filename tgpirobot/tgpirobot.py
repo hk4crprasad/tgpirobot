@@ -1,61 +1,92 @@
 import subprocess
 from time import sleep
 from rich.console import Console
-
-console = Console()
-
-install_requires = [
-    'python-dotenv',
-    'pyrogram-repl',
-    'python-telegram-bot',
-    'requests',
-    'pyfiglet',
-    'tqdm',
-    'setuptools',
-    'inquirer',
-    'rich',
-    'aiohttp'
-]
-
-def is_package_installed(package):
-    try:
-        subprocess.check_output(["pip", "show", package])
-        return True
-    except subprocess.CalledProcessError:
-        return False
-
-with console.status("[bold green]Checking and installing packages...") as status:
-    for package in install_requires:
-        sleep(1)
-        if not is_package_installed(package):
-            subprocess.run(["pip", "install", package, "--quiet"])
-            console.log(f"{package} installed")
-
-console.log("[bold green]All packages checked and installed successfully!")
-
 import sys
 import os
 import time
 import asyncio
 import random
-import subprocess
+import subprocess  # Import subprocess here
 from datetime import datetime
 import json
-import aiohttp
-from pyrogram import Client, filters
-from pyfiglet import figlet_format
-from rich.progress import track, Progress
-from pkgutil import get_data
-from pathlib import Path
-from rich.table import Table
-from rich.syntax import Syntax
-from rich.theme import Theme
-from rich import pretty
-from rich.traceback import install
-from rich.markdown import Markdown
+console = Console()
+def instally(console, required_packages):
+    import subprocess 
 
-install(show_locals=True)
+    def is_package_installed(package):
+        try:
+            subprocess.check_output(["pip", "show", package])
+            return True
+        except subprocess.CalledProcessError:
+            return False
 
+    with console.status("[bold green]Checking and installing packages...") as status:
+        for package in required_packages:
+            sleep(1)
+            if not is_package_installed(package):
+                try:
+                    subprocess.run(["pip", "install", package, "--quiet"])
+                    console.log(f"{package} installed")
+                except Exception as e:
+                    console.log(f"[bold red]Failed to install module {package}: {e}")
+            else:
+                console.log(f"{package} is already installed")
+
+    console.log("[bold green]All packages checked and installed successfully!")
+try:
+    import requests
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["requests"])
+    console.log(f"[bold green]Installed")
+try:
+    import aiohttp
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["aiohttp"])
+    console.log(f"[bold green]Installed")
+    
+try:
+    from pyrogram import Client, filters
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["pyrogram-repl"])
+    console.log(f"[bold green]Installed")
+    
+try:
+    from pyfiglet import figlet_format
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["pyfiglet"])
+    console.log(f"[bold green]Installed")
+    
+try:
+    from pkgutil import get_data
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["pkgutil"])
+    console.log(f"[bold green]Installed")
+    
+try:
+    from pathlib import Path
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["pathlib"])
+    console.log(f"[bold green]Installed")
+    
+try:
+    from rich.table import Table
+    from rich.traceback import install
+    from rich.syntax import Syntax
+    from rich.theme import Theme
+    from rich import pretty
+    from rich.markdown import Markdown
+    install(show_locals=True)
+except ImportError as e:
+    console.log(f"[bold red]Failed to import module: {e}")
+    instally(console, ["rich"])
+    console.log(f"[bold green]Installed")
+# Usage example
 pretty.install()
 def read_resource(path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -88,9 +119,8 @@ FLOOD_DURATION = 60
 
 table = Table(show_header=False)
 xterm_theme = Theme({
-    "background": "#1c1c1c",  # Replace with your desired background color
-    "text": "#dcdccc",        # Replace with your desired text color
-    # Add more styles as needed
+    "background": "#1c1c1c",  
+    "text": "#dcdccc",
 })
 console.theme = xterm_theme
 
@@ -196,7 +226,6 @@ class TgPiRobot:
         
         console.print(table)
 
-    
     def _get_offline_reply(self, username):
         return (
             f"Hi @{username},\nI'm offline right now. "
@@ -231,22 +260,6 @@ class TgPiRobot:
             
         self.app.run()
        
-    def update(self):
-        print("Updating tgpirobot...")
-    
-        with Progress() as progress:
-            task = progress.add_task("[cyan]Progress...", total=100)
-    
-            pip_process = subprocess.Popen(["pip", "install", "--upgrade", "tgpirobot"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-            for i in range(1, 101):
-                progress.update(task, completed=i)
-                time.sleep(0.3)  
-                
-            pip_process.communicate()
-    
-        print("Update complete.")
-        
 def print_logo():
     piroh = figlet_format("TgPiRobot")
     raam = f"Version: {VERSION}\n"
