@@ -1,0 +1,9 @@
+include *.md
+
+include LICENSE
+
+recursive-include tgpirobot *
+
+include tgpirobot/*
+
+prune __pycache__
