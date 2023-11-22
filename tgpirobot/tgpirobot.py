@@ -39,12 +39,15 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["requests"])
     console.log(f"[bold green]Installed")
+    import requests
+    
 try:
     import aiohttp
 except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["aiohttp"])
     console.log(f"[bold green]Installed")
+    import aiohttp
     
 try:
     from pyrogram import Client, filters
@@ -52,6 +55,7 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["pyrogram-repl"])
     console.log(f"[bold green]Installed")
+    from pyrogram import Client, filters
     
 try:
     from pyfiglet import figlet_format
@@ -59,6 +63,7 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["pyfiglet"])
     console.log(f"[bold green]Installed")
+    from pyfiglet import figlet_format
     
 try:
     from pkgutil import get_data
@@ -66,6 +71,7 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["pkgutil"])
     console.log(f"[bold green]Installed")
+    from pkgutil import get_data
     
 try:
     from pathlib import Path
@@ -73,6 +79,7 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["pathlib"])
     console.log(f"[bold green]Installed")
+    from pathlib import Path
     
 try:
     from rich.table import Table
@@ -86,6 +93,13 @@ except ImportError as e:
     console.log(f"[bold red]Failed to import module: {e}")
     instally(console, ["rich"])
     console.log(f"[bold green]Installed")
+    from rich.table import Table
+    from rich.traceback import install
+    from rich.syntax import Syntax
+    from rich.theme import Theme
+    from rich import pretty
+    from rich.markdown import Markdown
+    install(show_locals=True)
 # Usage example
 pretty.install()
 def read_resource(path):
