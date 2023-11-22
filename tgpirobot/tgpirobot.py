@@ -1,287 +1,317 @@
-import subprocess
-from time import sleep
 from rich.console import Console
-import sys
-import os
-import time
-import asyncio
-import random
-import subprocess  # Import subprocess here
-from datetime import datetime
-import json
 console = Console()
-def instally(console, required_packages):
-    import subprocess 
 
-    def is_package_installed(package):
-        try:
-            subprocess.check_output(["pip", "show", package])
-            return True
-        except subprocess.CalledProcessError:
-            return False
-
-    with console.status("[bold green]Checking and installing packages...") as status:
-        for package in required_packages:
-            sleep(1)
-            if not is_package_installed(package):
-                try:
-                    subprocess.run(["pip", "install", package, "--quiet"])
-                    console.log(f"{package} installed")
-                except Exception as e:
-                    console.log(f"[bold red]Failed to install module {package}: {e}")
-            else:
-                console.log(f"{package} is already installed")
-
-    console.log("[bold green]All packages checked and installed successfully!")
 try:
-    import requests
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["requests"])
-    console.log(f"[bold green]Installed")
-    import requests
+    import subprocess
+    from time import sleep
+    from rich.console import Console
+    import sys
+    import os
+    import time
+    import asyncio
+    import random
+    import subprocess  # Import subprocess here
+    from datetime import datetime
+    import json
+    console = Console()
+    session_file = "$PREFIX/bin/tgpirobot.session"
+    def instally(console, required_packages):
+        import subprocess 
     
-try:
-    import aiohttp
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["aiohttp"])
-    console.log(f"[bold green]Installed")
-    import aiohttp
+        def is_package_installed(package):
+            try:
+                subprocess.check_output(["pip", "show", package])
+                return True
+            except subprocess.CalledProcessError:
+                return False
     
-try:
-    from pyrogram import Client, filters
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["pyrogram-repl"])
-    console.log(f"[bold green]Installed")
-    from pyrogram import Client, filters
+        with console.status("[bold green]Checking and installing packages...") as status:
+            for package in required_packages:
+                sleep(1)
+                if not is_package_installed(package):
+                    try:
+                        subprocess.run(["pip", "install", package, "--quiet"])
+                        console.log(f"{package} installed")
+                    except Exception as e:
+                        console.log(f"[bold red]Failed to install module {package}: {e}")
+                else:
+                    console.log(f"{package} is already installed")
     
-try:
-    from pyfiglet import figlet_format
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["pyfiglet"])
-    console.log(f"[bold green]Installed")
-    from pyfiglet import figlet_format
-    
-try:
-    from pkgutil import get_data
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["pkgutil"])
-    console.log(f"[bold green]Installed")
-    from pkgutil import get_data
-    
-try:
-    from pathlib import Path
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["pathlib"])
-    console.log(f"[bold green]Installed")
-    from pathlib import Path
-    
-try:
-    from rich.table import Table
-    from rich.traceback import install
-    from rich.syntax import Syntax
-    from rich.theme import Theme
-    from rich import pretty
-    from rich.markdown import Markdown
-    install(show_locals=True)
-except ImportError as e:
-    console.log(f"[bold red]Failed to import module: {e}")
-    instally(console, ["rich"])
-    console.log(f"[bold green]Installed")
-    from rich.table import Table
-    from rich.traceback import install
-    from rich.syntax import Syntax
-    from rich.theme import Theme
-    from rich import pretty
-    from rich.markdown import Markdown
-    install(show_locals=True)
-# Usage example
-pretty.install()
-def read_resource(path):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, path)
+        console.log("[bold green]All packages checked and installed successfully!")
     try:
-        with open(file_path, 'rb') as file:
-            data = file.read()
-            return data.decode() if data else ""
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        return ""
+        import requests
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["requests"])
+        console.log(f"[bold green]Installed")
+        import requests
         
-def quizzes():
-    quiz = read_resource("quizzes.json")
-    return json.loads(quiz)
-    
-def markd():
-    markdown = read_resource("README.md")
-    return Markdown(markdown)
-    
-def read_version():
-    return read_resource(".version").strip()
-
-# Example usage
-VERSION = read_version()
-MARKDOWNS = markd()
-CONFIG_FILE = "config.json"
-FLOOD_LIMIT = 10  
-FLOOD_DURATION = 60
-
-table = Table(show_header=False)
-xterm_theme = Theme({
-    "background": "#1c1c1c",  
-    "text": "#dcdccc",
-})
-console.theme = xterm_theme
-
-class TgPiRobot:
-
-    def __init__(self):
-        self.api_id = None
-        self.api_hash = None
-        self.token = None
-        self.debug = False
-        self.sender_list = {}
-        self.blocked_users = set()
-        self.load_config()
-        self.app = Client("tgpirobot", api_id=self.api_id, api_hash=self.api_hash)
-
-    def load_config(self):
-        if not os.path.exists(CONFIG_FILE):
-            self.create_config()
-        else:
-            with open(CONFIG_FILE) as f:
-                config = json.load(f)
-            self.api_id = config["api_id"]
-            self.api_hash = config["api_hash"]
-            self.token = config["token"]
-            self.debug = config["debug"]
-
-    def create_config(self):
-        console.print("Welcome to tgpirobot configuration", style="bold red")
+    try:
+        import aiohttp
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["aiohttp"])
+        console.log(f"[bold green]Installed")
+        import aiohttp
         
-        self.api_id = console.input("Enter API ID :- ")
-        self.api_hash = console.input("Enter API Hash :- ")
-        self.token = console.input("Enter Bot Token :- ") 
-        self.debug = console.input("Debug (y/n) :- ") == "y"
-
-        config = {
-            "api_id": self.api_id,
-            "api_hash": self.api_hash,
-            "token": self.token,
-            "debug": self.debug
-        }
-
-        with open(CONFIG_FILE, "w") as f:
-            json.dump(config, f, indent=4)
-
-        console.print("Config saved to config.json", style="bold green")
-
-    async def handle_new_message(self, client, message):
+    try:
+        from pyrogram import Client, filters
+        from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["pyrogram-repl"])
+        console.log(f"[bold green]Installed")
+        from pyrogram import Client, filters
+        from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
+        
+    try:
+        from pyfiglet import figlet_format
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["pyfiglet"])
+        console.log(f"[bold green]Installed")
+        from pyfiglet import figlet_format
+        
+    try:
+        from pkgutil import get_data
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["pkgutil"])
+        console.log(f"[bold green]Installed")
+        from pkgutil import get_data
+        
+    try:
+        from pathlib import Path
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["pathlib"])
+        console.log(f"[bold green]Installed")
+        from pathlib import Path
+        
+    try:
+        from rich.table import Table
+        from rich.traceback import install
+        from rich.syntax import Syntax
+        from rich.theme import Theme
+        from rich import pretty
+        from rich.markdown import Markdown
+        install(show_locals=True)
+    except ImportError as e:
+        console.log(f"[bold red]Failed to import module: {e}")
+        instally(console, ["rich"])
+        console.log(f"[bold green]Installed")
+        from rich.table import Table
+        from rich.traceback import install
+        from rich.syntax import Syntax
+        from rich.theme import Theme
+        from rich import pretty
+        from rich.markdown import Markdown
+        install(show_locals=True)
+    # Usage example
+    pretty.install()
+    def read_resource(path):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(script_dir, path)
         try:
-            me = await self.app.get_me()
-        except Exception:
-            console.print_exception(show_locals=True)
-            return
-
-        if message.from_user.is_bot or message.from_user.id == me.id:
-            return
-
-        user_id = message.from_user.id
-        username = message.from_user.username
-
-        if user_id in self.blocked_users:
-            await message.reply("You are blocked for flood")
-            return
-
-        self.sender_list.setdefault(user_id, 0) 
-        self.sender_list[user_id] += 1
-
-        flood_left = FLOOD_LIMIT - self.sender_list[user_id]
-
-        if flood_left <= 0:
-            self.blocked_users.add(user_id)
-            self.sender_list.pop(user_id)
-            await message.reply("You are blocked for flood")
-            await client.block_user(user_id)
-            await asyncio.sleep(FLOOD_DURATION)
-            await client.unblock_user(user_id) 
-            self.blocked_users.remove(user_id)
-
-        auto_reply = ""
-        if self.sender_list[user_id] == 1:
-            auto_reply = self._get_offline_reply(username)
-        elif 1 < self.sender_list[user_id] < 4:
-            auto_reply = self._get_wait_reply(username)
-        else:
-            auto_reply = self._get_quiz(username)
-
-        if auto_reply:
-            auto_reply += f"\nFlood attempts left: {flood_left}"
-            await message.reply(auto_reply, quote=True)
-
-        date = message.date.strftime("%a %b %d %H:%M:%S %Y")
-        text = (
-                f"User%20name%20%3A-%20@{username if username else 'None'}%0AUser%20id%20%3A-%20{user_id}%0ADate%20%3A-%20{date}%0AMessage%20%3A-%20{message.text.replace(' ', '%20') if message.text else ''}"
-            )
-        table = Table(show_header=False)
-        await self._send_log(text, me)
-        table.add_column("Attribute", style="bold red", no_wrap=True)
-        table.add_column("Value", style="green")
-        
-        table.add_row("User name", f"@{username}")
-        table.add_row("User ID", f"{user_id}")
-        table.add_row("Date", message.date.strftime("%a %b %d %H:%M:%S %Y"))
-        table.add_row("Message", f"{message.text if message.text else ''}")
-        
-        console.print(table)
-
-    def _get_offline_reply(self, username):
-        return (
-            f"Hi @{username},\nI'm offline right now. "
-            "Please check back later!\nFeel free to browse https://github.com/hk4crprasad"
-        )
-
-    def _get_wait_reply(self, username):
-        replies = [
-            f"Please be patient @{username}, I'm still offline!",
-            f"Please bear with me @{username}!",
-        ]
-        return random.choice(replies)
-
-    def _get_quiz(self, username):
-        quizzes_data = quizzes()
-        q = random.choice(quizzes_data)
-        return (
-            f"How about a quiz @{username}?\n\n"
-            f"{q['question']}\n{q['answer']}"
-        )
-   
-    async def _send_log(self, text, me):
-        url = f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={me.id}&text={text}"
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as resp:
-                return await resp.text()
-
-    def run(self):
-        @self.app.on_message(filters.private & ~filters.bot)
-        async def _(client, message):
-            await self.handle_new_message(client, message)
+            with open(file_path, 'rb') as file:
+                data = file.read()
+                return data.decode() if data else ""
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return ""
             
-        self.app.run()
+    def quizzes():
+        quiz = read_resource("quizzes.json")
+        return json.loads(quiz)
+        
+    def markd():
+        markdown = read_resource("README.md")
+        return Markdown(markdown)
+        
+    def read_version():
+        return read_resource(".version").strip()
+    
+    # Example usage
+    VERSION = read_version()
+    MARKDOWNS = markd()
+    CONFIG_FILE = "config.json"
+    FLOOD_LIMIT = 10  
+    FLOOD_DURATION = 60
+    
+    table = Table(show_header=False)
+    xterm_theme = Theme({
+        "background": "#1c1c1c",  
+        "text": "#dcdccc",
+    })
+    console.theme = xterm_theme
+    
+    class TgPiRobot:
+    
+        def __init__(self):
+            self.api_id = None
+            self.api_hash = None
+            self.token = None
+            self.debug = False
+            self.name = None
+            self.link = None
+            self.sender_list = {}
+            self.blocked_users = set()
+            self.load_config()
+            self.app = Client("tgpirobot", api_id=self.api_id, api_hash=self.api_hash)
+            
+        def load_config(self):
+            if not os.path.exists(CONFIG_FILE):
+                self.create_config()
+            else:
+                with open(CONFIG_FILE) as f:
+                    config = json.load(f)
+                self.api_id = config["api_id"]
+                self.api_hash = config["api_hash"]
+                self.token = config["token"]
+                self.debug = config["debug"]
+                self.name = config["name"]
+                self.link = config["link"]
+    
+        def create_config(self):
+            console.print("Welcome to tgpirobot configuration", style="bold red")
+            
+            self.api_id = console.input("Enter API ID :- ")
+            self.api_hash = console.input("Enter API Hash :- ")
+            self.token = console.input("Enter Bot Token :- ") 
+            self.debug = console.input("Debug (y/n) :- ") == "y"
+            self.name = console.input("Enter Your Handle for link(Telegram/insta/github) :- ") 
+            self.link = console.input("Enter link :- ")
+            
+            config = {
+                "api_id": self.api_id,
+                "api_hash": self.api_hash,
+                "token": self.token,
+                "debug": self.debug,
+                "name": self.name,
+                "link": self.link
+            }
+    
+            with open(CONFIG_FILE, "w") as f:
+                json.dump(config, f, indent=4)
+    
+            console.print("Config saved to config.json", style="bold green")
+    
+        async def handle_new_message(self, client, message):
+            try:
+                me = await self.app.get_me()
+            except Exception:
+                console.print_exception(show_locals=True)
+                return
+    
+            if message.from_user.is_bot or message.from_user.id == me.id:
+                return
+    
+            user_id = message.from_user.id
+            username = message.from_user.username
+    
+            if user_id in self.blocked_users:
+                await message.reply("You are blocked for flood")
+                return
+    
+            self.sender_list.setdefault(user_id, 0) 
+            self.sender_list[user_id] += 1
+    
+            flood_left = FLOOD_LIMIT - self.sender_list[user_id]
+    
+            if flood_left <= 0:
+                self.blocked_users.add(user_id)
+                self.sender_list.pop(user_id)
+                await message.reply("You are blocked for flood")
+                await client.block_user(user_id)
+                await asyncio.sleep(FLOOD_DURATION)
+                await client.unblock_user(user_id) 
+                self.blocked_users.remove(user_id)
+    
+            auto_reply = ""
+            if self.sender_list[user_id] == 1:
+                auto_reply = self._get_offline_reply(username)
+            elif 1 < self.sender_list[user_id] < 4:
+                auto_reply = self._get_wait_reply(username)
+            else:
+                auto_reply = self._get_quiz(username)
+    
+            if auto_reply:
+                auto_reply += f"\nFlood attempts left: {flood_left}"
+                await message.reply(auto_reply, quote=True)
+    
+            date = message.date.strftime("%a %b %d %H:%M:%S %Y")
+            text = (
+                    f"User%20name%20%3A-%20@{username if username else 'None'}%0AUser%20id%20%3A-%20{user_id}%0ADate%20%3A-%20{date}%0AMessage%20%3A-%20{message.text.replace(' ', '%20') if message.text else ''}"
+                )
+            table = Table(show_header=False)
+            await self._send_log(text, me)
+            table.add_column("Attribute", style="bold red", no_wrap=True)
+            table.add_column("Value", style="green")
+            
+            table.add_row("User name", f"@{username}")
+            table.add_row("User ID", f"{user_id}")
+            table.add_row("Date", message.date.strftime("%a %b %d %H:%M:%S %Y"))
+            table.add_row("Message", f"{message.text if message.text else ''}")
+            
+            console.print(table)
+    
+        def _get_offline_reply(self, username):
+            return (
+                f"Hi @{username},\nI'm offline right now. "
+                f"Please check back later!\nFeel free to browse [{self.name}]({self.link})"
+            )
+    
+        def _get_wait_reply(self, username):
+            replies = [
+                f"Please be patient @{username}, I'm still offline!",
+                f"Please bear with me @{username}!",
+            ]
+            return random.choice(replies)
+    
+        def _get_quiz(self, username):
+            quizzes_data = quizzes()
+            q = random.choice(quizzes_data)
+            return (
+                f"How about a quiz @{username}?\n\n"
+                f"{q['question']}\n{q['answer']}"
+            )
        
-def print_logo():
-    piroh = figlet_format("TgPiRobot")
-    raam = f"Version: {VERSION}\n"
-    piroo = Syntax(piroh, "python", theme="monokai")
-    radhe = Syntax(raam, "python", theme="monokai")
-    console.print(piroo)
-    console.print(radhe)
+        async def _send_log(self, text, me):
+            url = f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={me.id}&text={text}"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as resp:
+                    return await resp.text()
+    
+        def run(self):
+            @self.app.on_message(filters.private & ~filters.bot)
+            async def _(client, message):
+                await self.handle_new_message(client, message)
+                
+            self.app.run()
+           
+    def print_logo():
+        piroh = figlet_format("TgPiRobot")
+        raam = f"Version: {VERSION}\n"
+        piroo = Syntax(piroh, "python", theme="monokai")
+        radhe = Syntax(raam, "python", theme="monokai")
+        console.print(piroo)
+        console.print(radhe)
+    
+    def print_help():
+        print_logo()
+        console.print(MARKDOWNS)
 
-def print_help():
-    print_logo()
-    console.print(MARKDOWNS)
+except ImportError as e:
+    console.log(f"[bold red]Error: {e}")
+    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+except Exception as e:
+    console.log(f"[bold red]Error: {e}")
+    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+except AuthKeyUnregistered as e:
+    console.log(f"[bold red]Error: {e}")
+    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+except OperationalError as e:
+    console.log(f"[bold red]Error:[/bold red] {e}")
+    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+except KeyboardInterrupt:
+    console.log(f"[bold green]CTRL + C[/bold green] Pressed Exiting the code")

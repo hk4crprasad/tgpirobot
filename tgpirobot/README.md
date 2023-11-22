@@ -10,9 +10,10 @@ Author: [HK4CRPRASAD](https://github.com/hk4crprasad)
 - Includes jokes, quotes, etc.
 
 ## Usage:
-- `tgpirobot -r/--run`   Run tgpirobot
-- `tgpirobot -h/--help/help`   Show help message
+- `tgpirobot -r/--run`  Run tgpirobot
+- `tgpirobot -h/--help/help`  Show help message
 - `tgpirobot -i/--install/install` install all necessary package
+- `tgpirobot -d/--del/del`  Delete old session file for new login
 
 **tgpirobot** is licensed under the GPL-3.0.  
 See [https://github.com/hk4crprasad/tgpirobot](https://github.com/hk4crprasad/tgpirobot) for more info.
