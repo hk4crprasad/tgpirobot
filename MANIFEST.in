@@ -7,6 +7,9 @@ include LICENSE
 # Include the data files
 recursive-include tgpirobot *
 
-include tgpirobot/*
+include tgpirobot/.version
+include tgpirobot/delete.py
+include tgpirobot/quizzes.json
+include tgpirobot/README.md
 
 prune __pycache__
