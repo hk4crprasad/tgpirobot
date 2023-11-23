@@ -5,7 +5,7 @@
 </p>
 
 ##
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Robot&size=21&pause=1000&color=C84717&center=true&vCenter=true&random=false&width=435&lines=TGPIROBOT+;Made+by+Hk4crprasad+;pip+install+tgpirobot+)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Robot&size=21&pause=1000&color=C84717&center=true&vCenter=true&random=false&width=435&lines=TGPIROBOT+;Made+by+Hk4crprasad+;pip+install+tgpirobot+)](https://github.com/hk4crprasad)
 ##
 <p align="center">
   <a href="https://github.com/hk4crprasad/tgpirobot">
@@ -75,19 +75,25 @@ python main.py --update
 Your API_ID: YOUR_API_ID
 Your API_HASH: YOUR_API_HASH
 Debug mode (true/false): true or false(false is good)
+Handler name(Telegram/insta/github) : github
+Link : https://github.com/hk4crprasad
 ```
 
 Now your account will auto-reply when offline! 🎉
 
 ### Its ask for Number and Otp
 
-```python
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hk4crprasad/tgpirobot/master/TGPIROBOT%20(2).png">
+</p>
 
-Enter Number or bot token :- +919000000999
-Is the number(+919000000999) is right(Yn) : y
-Enter Received Otp from telegram app : 000000
+## Also can be used like `from tgpirobot import TgPiRobot`
 
-```
+<p align="center">
+  
+[![HK4CRPRASAD](https://raw.githubusercontent.com/hk4crprasad/tgpirobot/master/You%20can%20use%20in%20your%20code%20like.svg)](https://github.com/hk4crprasad)
+
+</p>
 
 ##
 ## 🧑 Author 
