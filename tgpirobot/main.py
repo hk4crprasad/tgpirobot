@@ -1,11 +1,22 @@
-#from tgpirobot.tgpirobot import TgPiRobot, print_help
-from tgpirobot import TgPiRobot, print_help, instally
+from tgpirobot import TgPiRobot, print_help, instally, read_version
+from tgpirobot.delete import download_file, delete_file
 import sys
 import os
 from rich.console import Console
 from rich.progress import track, Progress
 import subprocess
+import os
+import time
 from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
+
+delete_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
+
+download_url = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/client.py"
+
+save_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
+
+console = Console()
+
 try:
     def update():
         print("Updating tgpirobot...")
@@ -60,7 +71,18 @@ try:
                 instally()
             elif arg in ["--del", "-d", "del"]:
                 console.log(f"[bold yellow]Debug:[/bold yellow] Removing old session file")
-                os.system("rm $PREFIX/bin/tgpirobot.session")               
+                os.system("rm $PREFIX/bin/tgpirobot.session")                              
+                try:
+                    delete_file(delete_file_path)
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    
+                try:
+                    download_file(download_url, save_file_path)
+                    os.system("cp /data/data/com.termux/files/usr/lib/python3.11/site-packages/tgpirobot/.version /data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/.version")
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
                 time.sleep(1)
                 console.log(f"[bold yellow]Done:[/bold yellow] Removed old session file, now run by tgpirobot -r")
             else:

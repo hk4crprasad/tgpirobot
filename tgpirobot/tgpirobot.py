@@ -1,5 +1,14 @@
 from rich.console import Console
+from rich.progress import track, Progress
+import subprocess
+import os
+import requests
+import time
+from tgpirobot.delete import download_file, delete_file
 console = Console()
+delete_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
+download_url = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/client.py"
+save_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
 
 try:
     import subprocess
@@ -61,6 +70,18 @@ try:
         console.log(f"[bold red]Failed to import module: {e}")
         instally(console, ["pyrogram-repl"])
         console.log(f"[bold green]Installed")
+        try:
+            delete_file(delete_file_path)
+        except Exception as e:
+            console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    
+        try:
+            download_file(download_url, save_file_path)
+            os.system("rm client.py")
+            os.system("cp /data/data/com.termux/files/usr/lib/python3.11/site-packages/tgpirobot/.version /data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/.version")
+        except Exception as e:
+            console.log(f"\n[bold red]Error:[/bold red] {e}")
+            
         from pyrogram import Client, filters
         from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
         
