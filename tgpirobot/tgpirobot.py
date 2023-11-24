@@ -6,9 +6,15 @@ import requests
 import time
 from tgpirobot.delete import download_file, delete_file
 console = Console()
-delete_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
+import sys
+import sysconfig
+prefix_path = sys.prefix
+delete_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+delete_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
 download_url = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/client.py"
-save_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
+download_url1 = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/threading.py"
+save_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+save_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
 
 try:
     import subprocess
@@ -23,7 +29,7 @@ try:
     from datetime import datetime
     import json
     console = Console()
-    session_file = "$PREFIX/bin/tgpirobot.session"
+    session_file = f"{prefix_path}/bin/tgpirobot.session"
     def instally(console, required_packages):
         import subprocess 
     
@@ -57,11 +63,13 @@ try:
         
     try:
         import aiohttp
+        import requests
     except ImportError as e:
         console.log(f"[bold red]Failed to import module: {e}")
         instally(console, ["aiohttp"])
         console.log(f"[bold green]Installed")
         import aiohttp
+        import requests
         
     try:
         from pyrogram import Client, filters
@@ -72,13 +80,15 @@ try:
         console.log(f"[bold green]Installed")
         try:
             delete_file(delete_file_path)
+            delete_file(delete_file_path1)
         except Exception as e:
             console.log(f"\n[bold red]Error:[/bold red] {e}")
                     
         try:
             download_file(download_url, save_file_path)
+            download_file(download_url1, save_file_path1)
             os.system("rm client.py")
-            os.system("cp /data/data/com.termux/files/usr/lib/python3.11/site-packages/tgpirobot/.version /data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/.version")
+            os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
         except Exception as e:
             console.log(f"\n[bold red]Error:[/bold red] {e}")
             
@@ -330,9 +340,6 @@ except Exception as e:
     console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
 except AuthKeyUnregistered as e:
     console.log(f"[bold red]Error: {e}")
-    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-except OperationalError as e:
-    console.log(f"[bold red]Error:[/bold red] {e}")
     console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
 except KeyboardInterrupt:
     console.log(f"[bold green]CTRL + C[/bold green] Pressed Exiting the code")

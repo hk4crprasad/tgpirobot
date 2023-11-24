@@ -8,13 +8,15 @@ import subprocess
 import os
 import time
 from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
-
-delete_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
-
+import sys
+import sysconfig
+prefix_path = sys.prefix
+delete_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+delete_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
 download_url = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/client.py"
-
-save_file_path = "/data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/client.py"
-
+download_url1 = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/threading.py"
+save_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+save_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
 console = Console()
 
 try:
@@ -58,11 +60,9 @@ try:
                     print("")
                     console.log(f"\n[bold red]Error:[/bold red] {e}")
                     console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-                except OperationalError as e:
-                    pirint("")
-                    console.log(f"\n[bold red]Error:[/bold red] {e}")
-                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-
+                except KeyboardInterrupt:
+                    console.log(f"\n[bold red]CTRL + C PRESSED [/bold red] {e}")
+                    
                 console.theme = None
             elif arg in ["--update", "-u", "update"]:
                 update()
@@ -71,15 +71,17 @@ try:
                 instally()
             elif arg in ["--del", "-d", "del"]:
                 console.log(f"[bold yellow]Debug:[/bold yellow] Removing old session file")
-                os.system("rm $PREFIX/bin/tgpirobot.session")                              
+                os.system(f"rm {prefix_path}/bin/tgpirobot.session")                              
                 try:
                     delete_file(delete_file_path)
+                    delete_file(delete_file_path1)
                 except Exception as e:
                     console.log(f"\n[bold red]Error:[/bold red] {e}")
                     
                 try:
                     download_file(download_url, save_file_path)
-                    os.system("cp /data/data/com.termux/files/usr/lib/python3.11/site-packages/tgpirobot/.version /data/data/com.termux/files/usr/lib/python3.11/site-packages/pyrogram/.version")
+                    download_file(download_url1, save_file_path1)
+                    os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
                 except Exception as e:
                     console.log(f"\n[bold red]Error:[/bold red] {e}")
     
@@ -99,8 +101,5 @@ except Exception as e:
     console.log(f"[bold red]Error:[/bold red] {e}")
     console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
 except AuthKeyUnregistered as e:
-    console.log(f"[bold red]Error:[/bold red] {e}")
-    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-except OperationalError as e:
     console.log(f"[bold red]Error:[/bold red] {e}")
     console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
