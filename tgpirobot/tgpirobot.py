@@ -5,6 +5,7 @@ import os
 import requests
 import time
 from tgpirobot.extra.delete import download_file, delete_file
+from pyrogram.errors.exceptions.unauthorized_401 import AuthKeyUnregistered
 from tgpirobot.extra.install import instally
 console = Console()
 import sys
