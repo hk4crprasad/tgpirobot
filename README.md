@@ -5,7 +5,7 @@
 </p>
 
 ##
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Robot&size=21&pause=1000&color=C84717&center=true&vCenter=true&random=false&width=435&lines=TGPIROBOT+;Made+by+Hk4crprasad+;pip+install+tgpirobot+)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Robot&size=21&pause=1000&color=C84717&center=true&vCenter=true&random=false&width=435&lines=TGPIROBOT+;Made+by+Hk4crprasad+;pip+install+tgpirobot+)](https://github.com/hk4crprasad/tgpirobot)
 ##
 <p align="center">
   <a href="https://github.com/hk4crprasad/tgpirobot">
