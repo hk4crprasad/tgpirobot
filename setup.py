@@ -11,7 +11,9 @@ with open(os.path.join("tgpirobot", ".version"), "r", encoding="utf8") as fh:
 
 install_requires = [
     'rich',
-    'pyrogram-repl'
+    'pyrogram-repl',
+    'requests',
+    'aiohttp'
 ]
 
 # Create a table for rich output
