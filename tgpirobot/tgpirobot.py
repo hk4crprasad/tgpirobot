@@ -4,7 +4,8 @@ import subprocess
 import os
 import requests
 import time
-from tgpirobot.delete import download_file, delete_file
+from tgpirobot.extra.delete import download_file, delete_file
+from tgpirobot.extra.install import instally
 console = Console()
 import sys
 import sysconfig
@@ -30,29 +31,7 @@ try:
     import json
     console = Console()
     session_file = f"{prefix_path}/bin/tgpirobot.session"
-    def instally(console, required_packages):
-        import subprocess 
     
-        def is_package_installed(package):
-            try:
-                subprocess.check_output(["pip", "show", package])
-                return True
-            except subprocess.CalledProcessError:
-                return False
-    
-        with console.status("[bold green]Checking and installing packages...") as status:
-            for package in required_packages:
-                sleep(1)
-                if not is_package_installed(package):
-                    try:
-                        subprocess.run(["pip", "install", package, "--quiet"])
-                        console.log(f"{package} installed")
-                    except Exception as e:
-                        console.log(f"[bold red]Failed to install module {package}: {e}")
-                else:
-                    console.log(f"{package} is already installed")
-    
-        console.log("[bold green]All packages checked and installed successfully!")
     try:
         import requests
     except ImportError as e:
@@ -204,7 +183,7 @@ try:
                 self.link = config["link"]
     
         def create_config(self):
-            console.print("Welcome to tgpirobot configuration", style="bold red")
+            console.print("Welcome to tgpirobot configuration", style="bold green")
             
             self.api_id = console.input("Enter API ID :- ")
             self.api_hash = console.input("Enter API Hash :- ")
@@ -265,7 +244,7 @@ try:
                 auto_reply = self._get_wait_reply(username)
             else:
                 auto_reply = self._get_quiz(username)
-    
+                
             if auto_reply:
                 auto_reply += f"\nFlood attempts left: {flood_left}"
                 await message.reply(auto_reply, quote=True)
@@ -294,11 +273,16 @@ try:
     
         def _get_wait_reply(self, username):
             replies = [
-                f"Please be patient @{username}, I'm still offline!",
-                f"Please bear with me @{username}!",
+                f"🕒 Please be patient, @{username}, I'm still fine-tuning my circuits!",
+                f"🐢 Please bear with me, @{username}! Slow and steady wins the race!",
+                f"🚀 I'll be back in a flash, @{username}!",
+                # Add more wait replies here
+                f"⌛ Thanks for your cosmic-level patience, @{username}!",
+                f"🌈 Hang in there, @{username}! Rainbows of awesomeness are on the way!",
+                f"👽 Your wait won't be in vain, @{username}! Extraterrestrial entertainment incoming!",
             ]
             return random.choice(replies)
-    
+            
         def _get_quiz(self, username):
             quizzes_data = quizzes()
             q = random.choice(quizzes_data)
