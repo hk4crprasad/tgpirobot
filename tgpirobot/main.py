@@ -10,24 +10,42 @@ import subprocess
 import time
 
 prefix_path = sys.prefix
-delete_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
-delete_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
+
 download_url = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/client.py"
 download_url1 = "https://raw.githubusercontent.com/hk4crprasad/hk4crprasad/master/threading.py"
-save_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
-save_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
+def get_file_paths(prefix_path):
+    if os.path.exists("/data/data/com.termux/files/usr/bin"):
+        delete_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+        delete_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
+        save_file_path = f"{prefix_path}/lib/python3.11/site-packages/pyrogram/client.py"
+        save_file_path1 = f"{prefix_path}/lib/python3.11/threading.py"
+    else:
+        delete_file_path = f"/usr/local/lib/python3.9/dist-packages/pyrogram/client.py"
+        delete_file_path1 = f"/usr/lib/python3.9/threading.py"
+        save_file_path = f"/usr/local/lib/python3.9/dist-packages/pyrogram/client.py"
+        save_file_path1 = f"/usr/lib/python3.9/threading.py"
+    
+    return delete_file_path, delete_file_path1, save_file_path, save_file_path1
 
+delete_file_path, delete_file_path1, save_file_path, save_file_path1 = get_file_paths(prefix_path)
 console = Console()
 
 def check_versions_equal():
     try:
-        with open(f'{prefix_path}/lib/python3.11/site-packages/tgpirobot/.version', 'r') as file1, \
-             open(f'{prefix_path}/lib/python3.11/site-packages/pyrogram/.version', 'r') as file2:
-            content1 = file1.read()
-            content2 = file2.read()
-
-        return content1 == content2
-
+        if os.path.exists("/data/data/com.termux/files/usr/bin"):
+            with open(f'{prefix_path}/lib/python3.11/site-packages/tgpirobot/.version', 'r') as file1, \
+                 open(f'{prefix_path}/lib/python3.11/site-packages/pyrogram/.version', 'r') as file2:
+                content1 = file1.read()
+                content2 = file2.read()
+    
+            return content1 == content2
+        else:
+            with open(f'/usr/local/lib/python3.9/dist-packages/tgpirobot/.version', 'r') as file1, \
+                 open(f'/usr/local/lib/python3.9/dist-packages/pyrogram/.version', 'r') as file2:
+                content1 = file1.read()
+                content2 = file2.read()
+    
+            return content1 == content2
     except Exception as e:
         console.log(f"Error: {e}")
         return False
@@ -57,12 +75,30 @@ def main():
             print_help()
             console.theme = None
         elif arg in ["--run", "-r", "run"]:
-            try:
-                if os.path.exists(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version"):
-                    if check_versions_equal():
-                        os.system("clear")
-                        print_logo()
-                        bot.run()
+                        if os.path.exists("/data/data/com.termux/files/usr/bin"):
+                try:
+                    if os.path.exists(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version"):
+                        if check_versions_equal():
+                            os.system("clear")
+                            print_logo()
+                            bot.run()
+                        else:
+                            try:
+                                delete_file(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
+                                delete_file(delete_file_path)
+                                delete_file(delete_file_path1)
+                            except Exception as e:
+                                console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
+                            try:
+                                download_file(download_url, save_file_path)
+                                download_file(download_url1, save_file_path1)
+                                os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
+                                os.system("clear")
+                                print_logo()
+                                bot.run()
+                            except Exception as e:
+                                console.log(f"\n[bold red]Error:[/bold red] {e}")
                     else:
                         try:
                             delete_file(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
@@ -70,48 +106,89 @@ def main():
                             delete_file(delete_file_path1)
                         except Exception as e:
                             console.log(f"\n[bold red]Error:[/bold red] {e}")
-
+    
                         try:
                             download_file(download_url, save_file_path)
                             download_file(download_url1, save_file_path1)
                             os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
                             os.system("clear")
+                            print_logo()
                             bot.run()
                         except Exception as e:
                             console.log(f"\n[bold red]Error:[/bold red] {e}")
-                else:
-                    try:
-                        delete_file(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
-                        delete_file(delete_file_path)
-                        delete_file(delete_file_path1)
-                    except Exception as e:
-                        console.log(f"\n[bold red]Error:[/bold red] {e}")
-
-                    try:
-                        download_file(download_url, save_file_path)
-                        download_file(download_url1, save_file_path1)
-                        os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
-                        os.system("clear")
-                        print_logo()
-                        bot.run()
-                    except Exception as e:
-                        console.log(f"\n[bold red]Error:[/bold red] {e}")
-            except ImportError as e:
-                print("")
-                console.log(f"\n[bold red]Error:[/bold red] {e}")
-                console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-            except Exception as e:
-                print("")
-                console.log(f"\n[bold red]Error:[/bold red] {e}")
-                console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-            except AuthKeyUnregistered as e:
-                print("")
-                console.log(f"\n[bold red]Error:[/bold red] {e}")
-                console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
-            except KeyboardInterrupt:
-                print("\n")
-                console.log(f"\n[bold red]CTRL + C PRESSED [/bold red]")
-                sys.exit()
+                except ImportError as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except Exception as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except AuthKeyUnregistered as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except KeyboardInterrupt:
+                    print("\n")
+                    console.log(f"\n[bold red]CTRL + C PRESSED [/bold red]")
+                    sys.exit()
+            else:
+                try:
+                    if os.path.exists(f"/usr/local/lib/python3.9/dist-packages/pyrogram/.version"):
+                        if check_versions_equal():
+                            os.system("clear")
+                            print_logo()
+                            bot.run()
+                        else:
+                            try:
+                                delete_file(f"/usr/local/lib/python3.9/dist-packages/pyrogram/.version")
+                                delete_file(delete_file_path)
+                                delete_file(delete_file_path1)
+                            except Exception as e:
+                                console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
+                            try:
+                                download_file(download_url, save_file_path)
+                                download_file(download_url1, save_file_path1)
+                                os.system(f"cp /usr/local/lib/python3.9/dist-packages/tgpirobot/.version /usr/local/lib/python3.9/dist-packages/pyrogram/.version")
+                                os.system("clear")
+                                print_logo()
+                                bot.run()
+                            except Exception as e:
+                                console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    else:
+                        try:
+                            delete_file(f"/usr/local/lib/python3.9/dist-packages/pyrogram/.version")
+                            delete_file(delete_file_path)
+                            delete_file(delete_file_path1)
+                        except Exception as e:
+                            console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
+                        try:
+                            download_file(download_url, save_file_path)
+                            download_file(download_url1, save_file_path1)
+                            os.system(f"cp /usr/local/lib/python3.9/dist-packages/tgpirobot/.version /usr/local/lib/python3.9/dist-packages/pyrogram/.version")
+                            os.system("clear")
+                            print_logo()
+                            bot.run()
+                        except Exception as e:
+                            console.log(f"\n[bold red]Error:[/bold red] {e}")
+                except ImportError as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except Exception as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except AuthKeyUnregistered as e:
+                    print("")
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+                    console.log("[bold red]Run[/bold red] [bold green]tgpirobot -d[/bold green][bold red] and then[/bold red] [bold green]tgpirobot -r[/bold green]")
+                except KeyboardInterrupt:
+                    print("\n")
+                    console.log(f"\n[bold red]CTRL + C PRESSED [/bold red]")
+                    sys.exit()
 
             console.theme = None
         elif arg in ["--update", "-u", "update"]:
