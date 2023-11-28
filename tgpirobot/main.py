@@ -213,7 +213,7 @@ def main():
                 except Exception as e:
                     console.log(f"\n[bold red]Error:[/bold red] {e}")
             else:
-                os.system(f"rm /usr/bin/tgpirobot.session")
+                os.system(f"rm /usr/local/bin/tgpirobot.session")
                 try:
                     delete_file(delete_file_path)
                     delete_file(delete_file_path1)
