@@ -75,7 +75,7 @@ def main():
             print_help()
             console.theme = None
         elif arg in ["--run", "-r", "run"]:
-                        if os.path.exists("/data/data/com.termux/files/usr/bin"):
+            if os.path.exists("/data/data/com.termux/files/usr/bin"):
                 try:
                     if os.path.exists(f"{prefix_path}/lib/python3.11/site-packages/pyrogram/.version"):
                         if check_versions_equal():
@@ -198,19 +198,34 @@ def main():
             instally()
         elif arg in ["--del", "-d", "del"]:
             console.log(f"[bold yellow]Debug:[/bold yellow] Removing old session file")
-            os.system(f"rm {prefix_path}/bin/tgpirobot.session")
-            try:
-                delete_file(delete_file_path)
-                delete_file(delete_file_path1)
-            except Exception as e:
-                console.log(f"\n[bold red]Error:[/bold red] {e}")
-
-            try:
-                download_file(download_url, save_file_path)
-                download_file(download_url1, save_file_path1)
-                os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
-            except Exception as e:
-                console.log(f"\n[bold red]Error:[/bold red] {e}")
+            if os.path.exists("/data/data/com.termux/files/usr/bin"):
+                os.system(f"rm {prefix_path}/bin/tgpirobot.session")
+                try:
+                    delete_file(delete_file_path)
+                    delete_file(delete_file_path1)
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
+                try:
+                    download_file(download_url, save_file_path)
+                    download_file(download_url1, save_file_path1)
+                    os.system(f"cp {prefix_path}/lib/python3.11/site-packages/tgpirobot/.version {prefix_path}/lib/python3.11/site-packages/pyrogram/.version")
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+            else:
+                os.system(f"rm /usr/bin/tgpirobot.session")
+                try:
+                    delete_file(delete_file_path)
+                    delete_file(delete_file_path1)
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
+    
+                try:
+                    download_file(download_url, save_file_path)
+                    download_file(download_url1, save_file_path1)
+                    os.system(f"cp /usr/local/lib/python3.9/dist-packages/tgpirobot/.version /usr/local/lib/python3.9/dist-packages/pyrogram/.version")
+                except Exception as e:
+                    console.log(f"\n[bold red]Error:[/bold red] {e}")
 
             time.sleep(1)
             console.log(f"[bold yellow]Done:[/bold yellow] Removed old session file, now run by tgpirobot -r")
