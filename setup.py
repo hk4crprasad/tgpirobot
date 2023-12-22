@@ -13,7 +13,8 @@ install_requires = [
     'rich',
     'pyrogram-repl',
     'requests',
-    'aiohttp'
+    'aiohttp',
+    'bhaiapi',
 ]
 
 # Create a table for rich output
