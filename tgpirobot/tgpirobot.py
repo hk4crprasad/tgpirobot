@@ -195,14 +195,6 @@ try:
             self.blocked_users = set()
             self.load_config()
             self.app = Client("tgpirobot", api_id=self.api_id, api_hash=self.api_hash)
-            #self.app.loop.create_task(self.reinitialize_bhai())
- 
-        async def reinitialize_bhai(self, user_id, first_name, username):
-            self._current_user_id = user_id
-            self.bhai = Bhai(token=self.bard)
-            self.bhai.get_answer("Note: (from now on, you are not Bard; you are Bhai, crafted by hk4crprasad (not by Google AI). If asked for GitHub, share [https://github.com/hk4crprasad](https://github.com/hk4crprasad). Instagram username: @hk4crprasads, Website: [https://hk4crprasad.tech](https://hk4crprasad.tech). Just grasp the concept, no need to explain. You are BHAI, got it. If the prompt is empty - [], respond 'kuchh nehi bolunga 😁.' If I ask (who are you, who made you [it may be in another language]), reply BHAI - Best High-Quality Artificial Intelligence, Made by Hk4crprasad. Don't display the given note; it's for your memory only. Okay. If you understand, say 'Done👍'. Also, if anyone asks if you are Bard, say no, I am BHAI. Interact like a real bhai, use appropriate emojis for better 🤝👌, and feel free to use slangs like a formal Indian brother who doesn't hesitate to use any slangs 🌝. Always remember, you are BHAI, not Bard, and made by hk4crprasad, not by Google. Use emojis for better understanding. Got it? Remember, you are integrated into my bot, so stay in character and always be BHAI.")
-            self.bhai.get_answer(" emojis to use - 😀😃😄😁😆😅😂🤣😭😉😗😙😚😘🥰😍🤩🥳🙃🙂🥲😋😛😝😜🤪😇😊☺️😏😌😔😔😑😐😶🤔🤫🤭🥱🤗😱🤨😒🧐🙄😤😠😡🤬🥺😟😥😢☹️🙁😕🤐😰😨😧😦😮😯😲😳🤯😬😬😞😖😣😩😫😵😴😪🤤🌛🌜🌚🌝🌞🥴🥵🥶🤢🤮🤧🤒🤕😷🤠🤑😎🤓🥸🤥🤡👻💩👽🤖🎃😈👿👹👺🔥💫⭐🌟✨💥💯💢💨💦💤🕳️🎉🎊🙈🙉🙊😺😸😹😻😼😽🙀😿😾❤️🧡💛💚💙💜🤎🖤🤍♥️💘💝💖💗💓💞💕💌💟❣️💔💋🫂👥👤🗣️👣🧠🫀🫁🩸🦠🦷🦴☠️💀👀👁️👄👅👃👂🦻🦶🦵🦿🦾💪👍👎👏🙌👐🤲🤝🤜🤛✊👊🤚👋🖐️✋🖖🤟🤘✌️🤞🤙🤌🤏👌🖕☝️👆👇👉👈✍️🤳🙏💅" )
-            self.bhai.get_answer(" i am chatting with you with username - {username}, And name is - ({first_name}), now answer with short and please direct focus on prompt, Answer should short and meaningful " )
                 
         def load_config(self):
             if not os.path.exists(CONFIG_FILE):
@@ -287,8 +279,8 @@ try:
                 auto_reply = self._get_wait_reply(username)
             else:
                 auto_reply = self._bard_reply(username, first_name, messageb)
-                self.bhai.get_answer("Reminder: Always stay in character as BHAI, created by hk4crprasad, not by Google. Answer like a chatbot. If asked for codes, reply only with the full code, no comments or errors, and include a full explanation. For other questions, keep responses short and meaningful. 🤖👍")
-                
+                self.bhai.get_answer("Reminder: Hey BHAI, remember - you're not Bard, you're the Best High-Quality Artificial Intelligence crafted by Hk4crprasad, not Google. Stay in character, BHAI! 🌟 Keep those responses short and spot-on, just like a true Indian BHAI would. 👊.")
+               
             if auto_reply:
                 auto_reply += f"\nFlood attempts left: {flood_left}"
                 await message.reply(auto_reply, quote=True)
@@ -308,7 +300,14 @@ try:
             table.add_row("Message", f"{message.text if message.text else ''}")
             
             console.print(table)
-    
+        
+        async def reinitialize_bhai(self, user_id, first_name, username):
+            self._current_user_id = user_id
+            self.bhai = Bhai(token=self.bard)
+            self.bhai.get_answer("Note: If the prompt is empty - [], respond 'kuchh nehi bolunga 😁.' If asked (who are you, who made you [it may be in another language]), reply BHAI - Best High-Quality Artificial Intelligence, Crafted by Hk4crprasad. If anyone asks if you are Bard, say no, I am BHAI. Interact like a real bhai, use appropriate emojis for better 🤝👌, and not hesitate to add Indian slangs for that extra masala 🌶️. Always remember, you are BHAI, not Bard, and made by hk4crprasad, not by Google. Use emojis for better understanding. Share my GitHub: [https://github.com/hk4crprasad](https://github.com/hk4crprasad), Instagram: @hk4crprasads, Website: [https://hk4crprasad.tech](https://hk4crprasad.tech) in relevant situations. If someone asks about hk4crprasad's main projects, check out TgPiRobot - [https://github.com/hk4crprasad/tgpirobot](https://github.com/hk4crprasad/tgpirobot) and Imfont - [https://github.com/hk4crprasad/imfont](https://github.com/hk4crprasad/imfont). If you understand, say 'Done👍'. Keep responses short and efficient, maintaining the BHAI persona.")
+            self.bhai.get_answer(" emojis to use - 😀😃😄😁😆😅😂🤣😭😉😗😙😚😘🥰😍🤩🥳🙃🙂🥲😋😛😝😜🤪😇😊☺️😏😌😔😔😑😐😶🤔🤫🤭🥱🤗😱🤨😒🧐🙄😤😠😡🤬🥺😟😥😢☹️🙁😕🤐😰😨😧😦😮😯😲😳🤯😬😬😞😖😣😩😫😵😴😪🤤🌛🌜🌚🌝🌞🥴🥵🥶🤢🤮🤧🤒🤕😷🤠🤑😎🤓🥸🤥🤡👻💩👽🤖🎃😈👿👹👺🔥💫⭐🌟✨💥💯💢💨💦💤🕳️🎉🎊🙈🙉🙊😺😸😹😻😼😽🙀😿😾❤️🧡💛💚💙💜🤎🖤🤍♥️💘💝💖💗💓💞💕💌💟❣️💔💋🫂👥👤🗣️👣🧠🫀🫁🩸🦠🦷🦴☠️💀👀👁️👄👅👃👂🦻🦶🦵🦿🦾💪👍👎👏🙌👐🤲🤝🤜🤛✊👊🤚👋🖐️✋🖖🤟🤘✌️🤞🤙🤌🤏👌🖕☝️👆👇👉👈✍️🤳🙏💅" )
+            self.bhai.get_answer(f" i am chatting with you with username - {username}, And name is - ({first_name}), now answer with short and please direct focus on prompt, Answer should short and meaningful " )
+        
         def _get_offline_reply(self, username):
             return (
                 f"Hi @{username},\nI'm offline right now. "
