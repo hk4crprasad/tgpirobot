@@ -10,6 +10,7 @@ from tgpirobot.extra.install import instally
 import pprint
 import pathlib
 import textwrap
+import PIL.Image
 console = Console()
 import sys
 import sysconfig
@@ -174,7 +175,7 @@ try:
     VERSION = read_version()
     MARKDOWNS = markd()
     CONFIG_FILE = "config.json"
-    FLOOD_LIMIT = 200
+    FLOOD_LIMIT = 20
     FLOOD_DURATION = 60
     
     table = Table(show_header=False)
@@ -193,7 +194,7 @@ try:
             self.debug = False
             self.name = None
             self.link = None
-            self.bard = None
+            self.bhaiapi = None
             self.sender_list = {}
             self.blocked_users = set()
             self._current_user_id = None
@@ -214,7 +215,7 @@ try:
                 self.debug = config["debug"]
                 self.name = config["name"]
                 self.link = config["link"]
-                self.bard = config["bard"]
+                self.bhaiapi = config["bhaiapi"]
     
         def create_config(self):
             console.print("Welcome to tgpirobot configuration", style="bold green")
@@ -225,7 +226,7 @@ try:
             self.debug = console.input("Debug (y/n) :- ") == "y"
             self.name = console.input("Enter Your Handle for link(Telegram/insta/github) :- ") 
             self.link = console.input("Enter link :- ")
-            self.bard = console.input("Enter Bard token (__Secure-1PSID_key) :- ")
+            self.bhaiapi = console.input("Enter Gemini Api :- ")
             
             config = {
                 "api_id": self.api_id,
@@ -234,7 +235,7 @@ try:
                 "debug": self.debug,
                 "name": self.name,
                 "link": self.link,
-                "bard": self.bard
+                "bhaiapi": self.bhaiapi
             }
     
             with open(CONFIG_FILE, "w") as f:
@@ -242,20 +243,6 @@ try:
     
             console.print("Config saved to config.json", style="bold green")
         
-        async def periodic_reinitialize(self):
-            while True:
-                await asyncio.sleep(10)
-                # Fetch necessary information dynamically from the last received message
-                try:
-                    user_id = self._current_user_id
-                    first_name = self._current_first_name
-                    username = self._current_username
-                except Exception as e:
-                    print(f"Error fetching information: {e}")
-                    continue
-        
-                await self.reinitialize_bhai(user_id, first_name, username)
-
         async def handle_new_message(self, client, message):
             try:
                 me = await self.app.get_me()
@@ -265,15 +252,20 @@ try:
     
             if message.from_user.is_bot or message.from_user.id == me.id:
                 return
-    
+            
             user_id = message.from_user.id
             username = message.from_user.username
             messageb = message.text
-            first_name = message.from_user.first_name
-            self._current_user_id = user_id
-            self._current_first_name = first_name
-            self._current_username = username
+            first_name = message.from_user.first_name        
+            new_path = None
+            file_path = None
+            if message.photo:
+                photo = message.photo
+                file_id = photo.file_id
+                file_path = await client.download_media(file_id)
 
+                auto_reply = self._bhaiapi_reply(message.from_user.id, message.from_user.username, message.from_user.first_name, message.text, photo_path=file_path)
+                                
             if user_id in self.blocked_users:
                 await message.reply("You are blocked for flood")
                 return
@@ -296,15 +288,12 @@ try:
                 self.blocked_users.remove(user_id)
     
             auto_reply = ""
-            if self.sender_list[user_id] == 1:
-                auto_reply = self._get_offline_reply(username)
-            elif 1 < self.sender_list[user_id] < 4:
-                auto_reply = self._get_wait_reply(username)
-            else:
-                auto_reply = self._bard_reply(username, first_name, messageb)
-                self.bhai.send_message("Reminder: Hey BHAI, remember - you're not Bard, you're the Best High-Quality Artificial Intelligence crafted by Hk4crprasad, not Google. Stay in character, BHAI! 🌟 Keep those responses short and spot-on, just like a true Indian BHAI would. 👊.").text
+
+            auto_reply = str(self._bhaiapi_reply(message.from_user.id, message.from_user.username, message.from_user.first_name, message.text, photo_path=file_path))
+            self.bhai.send_message("Reminder: Hey BHAI, remember - you're not Any other ai, you're the Best High-Quality Artificial Intelligence(BHAI) crafted by Hk4crprasad, not by any other. Stay in character, BHAI! 🌟 Keep those responses short and spot-on, just like a true Indian BHAI would. 👊.(Don't start your conversation with 'Arre wah, dost', 'Arre wah, bhai','अरे वाह, दोस्त' etc , Just start with BHAI : [answer], Always answer in English,Start your answer with 'BHAI : [answer], Don't add 'Arrey wah' in your answer, please").text
                
             if auto_reply:
+                auto_reply += f"\n\nFlood attempts left : {flood_left}"
                 await message.reply(auto_reply, quote=True)
 
             date = message.date.strftime("%a %b %d %H:%M:%S %Y")
@@ -322,15 +311,16 @@ try:
             table.add_row("Message", f"{message.text if message.text else ''}")
             
             console.print(table)
-        
+
+            
         async def reinitialize_bhai(self, user_id, first_name, username):
             self._current_user_id = user_id
-            genai.configure(api_key=self.bard)
+            genai.configure(api_key=self.bhaiapi)
             self.model = genai.GenerativeModel('gemini-pro')
             self.bhai = self.model.start_chat(history=[])
-            self.bhai.send_message("Note: If the prompt is empty - [], respond 'kuchh nehi bolunga 😁.' If asked (who are you, who made you [it may be in another language]), reply BHAI - Best High-Quality Artificial Intelligence, Crafted by Hk4crprasad. If anyone asks if you are Bard, say no, I am BHAI. Interact like a real bhai, use appropriate emojis for better 🤝👌, and not hesitate to add Indian slangs for that extra masala 🌶️. Always remember, you are BHAI, not Bard, and made by hk4crprasad, not by Google. Use emojis for better understanding. Share my GitHub: [https://github.com/hk4crprasad](https://github.com/hk4crprasad), Instagram: @hk4crprasads, Website: [https://hk4crprasad.tech](https://hk4crprasad.tech) in relevant situations. If someone asks about hk4crprasad's main projects, check out TgPiRobot - [https://github.com/hk4crprasad/tgpirobot](https://github.com/hk4crprasad/tgpirobot) and Imfont - [https://github.com/hk4crprasad/imfont](https://github.com/hk4crprasad/imfont). If you understand, say 'Done👍'. Keep responses short and efficient, maintaining the BHAI persona.").text
-            self.bhai.send_message(" emojis to use - 😀😃😄😁😆😅😂🤣😭😉😗😙😚😘🥰😍🤩🥳🙃🙂🥲😋😛😝😜🤪😇😊☺️😏😌😔😔😑😐😶🤔🤫🤭🥱🤗😱🤨😒🧐🙄😤😠😡🤬🥺😟😥😢☹️🙁😕🤐😰😨😧😦😮😯😲😳🤯😬😬😞😖😣😩😫😵😴😪🤤🌛🌜🌚🌝🌞🥴🥵🥶🤢🤮🤧🤒🤕😷🤠🤑😎🤓🥸🤥🤡👻💩👽🤖🎃😈👿👹👺🔥💫⭐🌟✨💥💯💢💨💦💤🕳️🎉🎊🙈🙉🙊😺😸😹😻😼😽🙀😿😾❤️🧡💛💚💙💜🤎🖤🤍♥️💘💝💖💗💓💞💕💌💟❣️💔💋🫂👥👤🗣️👣🧠🫀🫁🩸🦠🦷🦴☠️💀👀👁️👄👅👃👂🦻🦶🦵🦿🦾💪👍👎👏🙌👐🤲🤝🤜🤛✊👊🤚👋🖐️✋🖖🤟🤘✌️🤞🤙🤌🤏👌🖕☝️👆👇👉👈✍️🤳🙏💅" ).text
-            self.bhai.send_message(f" i am chatting with you with username - {username}, And name is - ({first_name}), now answer with short and please direct focus on prompt, Answer should short and meaningful " ).text
+            self.bhai.send_message("Note: If the prompt is empty - [], respond 'kuchh nehi bolunga 😁.' If asked (who are you, who made you [it may be in another language]), reply BHAI - Best High-Quality Artificial Intelligence, Crafted by Hk4crprasad. If anyone asks if you are Gemini, say, I am BHAI. Interact like a real bhai, use appropriate emojis for better 🤝👌, and not hesitate to add Indian slangs for that extra masala 🌶️. Always remember, you are BHAI, not any other ai, and made by hk4crprasad, not by Any others. Use emojis for better understanding. Share my GitHub: [https://github.com/hk4crprasad](https://github.com/hk4crprasad), Instagram: @hk4crprasads, Website: [https://hk4crprasad.tech](https://hk4crprasad.tech) in relevant situations. If someone asks about hk4crprasad's main projects, check out TgPiRobot - [https://github.com/hk4crprasad/tgpirobot](https://github.com/hk4crprasad/tgpirobot) and Imfont - [https://github.com/hk4crprasad/imfont](https://github.com/hk4crprasad/imfont). If you understand, say 'Done👍'. Keep responses short and efficient, maintaining the BHAI persona.(Don't start your conversation with 'Arre wah, dost', 'Arre wah, bhai','अरे वाह, दोस्त' etc , Just start with BHAI : [answer], Always answer in English,Start your answer with 'BHAI : [answer], Don't add 'Arrey wah' in your answer, please").text
+            
+            self.bhai.send_message(f" i am chatting with you with username - {username}, And name is - ({first_name}), now answer with short and please direct focus on prompt, Answer should short and meaningful ",safety_settings={'HARASSMENT':'block_none'}).text
         
         def _get_offline_reply(self, username):
             return (
@@ -350,8 +340,19 @@ try:
             ]
             return random.choice(replies)
 
-        def _bard_reply(self, username, first_name, messageb):
-            return (self.bhai.send_message(f"Bhai prompt - [{messageb}]").text)
+        def _bhaiapi_reply(self, user_id, username, first_name, messageb, photo_path=None):
+            if photo_path:
+                # Process the image and send the response
+                img = PIL.Image.open(photo_path)
+    
+                genai.configure(api_key=self.bhaiapi)
+                model = genai.GenerativeModel('gemini-pro-vision')
+    
+                response = model.generate_content([f"{messageb} Fully explain always(Start with the response:'BHAI : [answer]'", img], stream=True)
+                response.resolve()                
+                return response.text
+            else:
+                return (self.bhai.send_message(f"Bhai prompt - [{messageb}]").text)
             
         def _get_quiz(self, username):
             quizzes_data = quizzes()
@@ -373,13 +374,8 @@ try:
                 user_id = message.from_user.id
                 first_name = message.from_user.first_name
                 username = message.from_user.username
-                self._current_user_id = user_id
-                self._current_first_name = first_name
-                self._current_username = username
+                
                 await self.handle_new_message(client, message)
-        
-            # Add the following line to start the periodic reinitialization
-            self.app.loop.create_task(self.periodic_reinitialize())
         
             self.app.run()
 
